@@ -155,7 +155,10 @@ class RedisSentinel(object):
 
     @staticmethod
     def _config_from_variables(config, the_class):
-        args = inspect.getargspec(the_class.__init__).args
+        try:
+            args = inspect.getfullargspec(the_class.__init__).args
+        except AttributeError:
+            args = inspect.getargspec(the_class.__init__).args
         args.remove('self')
         args.remove('host')
         args.remove('port')
